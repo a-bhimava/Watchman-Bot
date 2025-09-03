@@ -2,24 +2,28 @@
 
 A reliable local application that discovers 40-50 Product Manager job postings daily, scores them against your personalized PM profile, and delivers 10 relevant jobs every 6 hours via Telegram.
 
-## Quick Start
+## 🚀 Quick Start (15 minutes)
 
-1. **Setup Environment**
+### For New Users:
+1. **Use this template** (click green button above) or clone the repo
+2. **Run the automated setup**:
    ```bash
-   python3 -m venv venv
-   source venv/bin/activate
-   pip install -r requirements.txt
+   python3 scripts/quick_setup.py
+   ```
+3. **Follow the prompts** to set up your Telegram bot and PM profile
+4. **Test your system**:
+   ```bash
+   python main.py --test
    ```
 
-2. **Configure System**
-   - Copy `examples/sample_pm_profile.json` to `config/pm_profile.json`
-   - Set up Telegram bot credentials in `.env`
-   - Customize job sources in `config/job_sources.json`
+### For Your Classmates/Friends:
+Share this repository as a **GitHub template** - each person gets their own private, reliable system:
+- ✅ Individual Telegram bots (privacy)
+- ✅ Personal PM profiles (customization) 
+- ✅ Independent operation (reliability)
+- ✅ 15-minute setup process
 
-3. **Run System**
-   ```bash
-   python main.py
-   ```
+📖 **Detailed setup guide**: [`docs/USER_SETUP_GUIDE.md`](docs/USER_SETUP_GUIDE.md)
 
 ## Project Structure
 

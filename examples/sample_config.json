@@ -1,0 +1,47 @@
+{
+  "scheduling": {
+    "jobs_per_batch": 10,
+    "batches_per_day": 4,
+    "hours_between_batches": 6,
+    "preferred_start_hour": 9,
+    "timezone": "America/Los_Angeles"
+  },
+  
+  "scoring": {
+    "minimum_score_threshold": 60,
+    "title_match_importance": "high",
+    "skills_match_importance": "high",
+    "experience_match_importance": "medium",
+    "industry_match_importance": "medium",
+    "company_match_importance": "low"
+  },
+  
+  "telegram": {
+    "message_formatting": {
+      "jobs_per_message": 1,
+      "line_spacing_between_jobs": 3,
+      "include_description_preview": true,
+      "max_description_length": 200,
+      "include_apply_urgency": true
+    },
+    "delivery_settings": {
+      "retry_attempts": 3,
+      "retry_delay_seconds": 5,
+      "rate_limit_delay": 1
+    }
+  },
+  
+  "storage": {
+    "data_retention_days": 30,
+    "max_cache_entries": 5000,
+    "cleanup_frequency_days": 7,
+    "backup_frequency_days": 30
+  },
+  
+  "reliability": {
+    "feed_timeout_seconds": 30,
+    "max_jobs_per_source": 100,
+    "retry_failed_sources": true,
+    "graceful_failure_mode": true
+  }
+}

@@ -1,0 +1,128 @@
+{
+  "meta": {
+    "version": "1.0",
+    "last_updated": "2025-01-15",
+    "description": "Sample PM profile - CUSTOMIZE with your actual information!"
+  },
+  
+  "experience": {
+    "years_of_pm_experience": 3,
+    "current_title": "Product Manager",
+    "seniority_level": "mid",
+    "previous_roles": ["Associate PM", "Business Analyst"]
+  },
+  
+  "target_roles": {
+    "primary_titles": [
+      "Product Manager",
+      "Senior Product Manager"
+    ],
+    "secondary_titles": [
+      "Product Owner",
+      "Product Lead",
+      "Principal PM"
+    ],
+    "avoid_titles": [
+      "Sales Manager",
+      "Marketing Manager",
+      "Project Manager"
+    ]
+  },
+  
+  "skills": {
+    "core_pm_skills": [
+      "product strategy",
+      "roadmapping", 
+      "user research",
+      "data analysis",
+      "A/B testing",
+      "stakeholder management",
+      "market research",
+      "competitive analysis"
+    ],
+    "technical_skills": [
+      "SQL",
+      "Python",
+      "Figma",
+      "Jira",
+      "Confluence",
+      "Google Analytics",
+      "Mixpanel",
+      "Tableau"
+    ],
+    "domain_expertise": [
+      "B2B SaaS",
+      "mobile apps",
+      "web platforms",
+      "API products"
+    ]
+  },
+  
+  "industries": {
+    "primary_experience": [
+      "technology",
+      "software",
+      "SaaS"
+    ],
+    "secondary_experience": [
+      "fintech",
+      "e-commerce"
+    ],
+    "interested_in": [
+      "healthtech",
+      "edtech",
+      "climate tech"
+    ],
+    "avoid_industries": [
+      "gambling",
+      "tobacco",
+      "adult content"
+    ]
+  },
+  
+  "geographic_preferences": {
+    "remote_preference": "remote_first",
+    "preferred_locations": [
+      "Remote",
+      "San Francisco",
+      "New York",
+      "Austin"
+    ],
+    "acceptable_commute": "30 minutes"
+  },
+  
+  "company_preferences": {
+    "company_stages": [
+      "startup",
+      "growth",
+      "public"
+    ],
+    "company_sizes": [
+      "51-200",
+      "201-500",
+      "501-1000"
+    ],
+    "preferred_companies": [
+      "Stripe",
+      "Notion",
+      "Linear",
+      "Figma",
+      "Vercel"
+    ],
+    "avoid_companies": [
+      "Meta",
+      "TikTok"
+    ]
+  },
+  
+  "compensation": {
+    "minimum_base_salary": 120000,
+    "target_total_comp": 180000,
+    "equity_importance": "high",
+    "benefits_priorities": [
+      "health insurance",
+      "unlimited PTO",
+      "401k matching"
+    ]
+  }
+}

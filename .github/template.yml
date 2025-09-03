@@ -1,0 +1,8 @@
+name: PM Watchman Job Search Bot
+description: 🤖 Automated Product Manager job search system that discovers, scores, and delivers relevant job opportunities via Telegram
+tags:
+  - job-search
+  - telegram-bot  
+  - product-manager
+  - automation
+  - python
