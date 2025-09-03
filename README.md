@@ -53,4 +53,4 @@ Share this repository as a **GitHub template** - each person gets their own priv
 
 ## Documentation
 
-See `docs/` for detailed setup and usage instructions.
+See `docs/` for detailed setup and usage instructions.# Watchman-Bot
