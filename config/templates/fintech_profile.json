@@ -1,0 +1,189 @@
+{
+  "meta": {
+    "template": "fintech",
+    "version": "1.0",
+    "description": "Optimized for Product Manager roles in fintech, banking, and payments"
+  },
+  
+  "experience": {
+    "years_of_pm_experience": 2,
+    "current_title": "Product Manager",
+    "seniority_level": "mid", 
+    "previous_roles": ["Associate PM", "Business Analyst", "Strategy Analyst"]
+  },
+  
+  "target_roles": {
+    "primary_titles": [
+      "Product Manager",
+      "Senior Product Manager",
+      "Associate Product Manager",
+      "Technical Product Manager"
+    ],
+    "secondary_titles": [
+      "Product Owner", 
+      "Product Lead",
+      "Fintech Product Manager",
+      "Payments PM",
+      "Banking Product Manager"
+    ],
+    "avoid_titles": [
+      "Sales Manager",
+      "Marketing Manager", 
+      "Project Manager",
+      "Account Manager"
+    ]
+  },
+  
+  "skills": {
+    "core_pm_skills": [
+      "product strategy",
+      "roadmapping",
+      "user research", 
+      "data analysis",
+      "A/B testing",
+      "stakeholder management",
+      "market research",
+      "competitive analysis",
+      "financial modeling",
+      "risk assessment"
+    ],
+    "technical_skills": [
+      "SQL",
+      "Python", 
+      "API design",
+      "blockchain basics",
+      "payments architecture",
+      "regulatory compliance",
+      "security protocols",
+      "fraud detection",
+      "Tableau",
+      "Mixpanel"
+    ],
+    "domain_expertise": [
+      "fintech",
+      "payments",
+      "banking",
+      "lending",
+      "cryptocurrency",
+      "regulatory compliance",
+      "financial services",
+      "B2B fintech",
+      "consumer finance"
+    ]
+  },
+  
+  "industries": {
+    "primary_experience": [
+      "fintech",
+      "financial services", 
+      "payments",
+      "banking"
+    ],
+    "secondary_experience": [
+      "technology",
+      "software",
+      "B2B SaaS"
+    ],
+    "interested_in": [
+      "cryptocurrency",
+      "blockchain",
+      "digital banking",
+      "insurtech",
+      "wealthtech",
+      "regtech"
+    ],
+    "avoid_industries": [
+      "gambling",
+      "adult content",
+      "tobacco"
+    ]
+  },
+  
+  "geographic_preferences": {
+    "remote_preference": "hybrid_preferred",
+    "preferred_locations": [
+      "San Francisco", 
+      "New York",
+      "Remote",
+      "Seattle",
+      "Austin",
+      "Chicago"
+    ],
+    "acceptable_commute": "45 minutes"
+  },
+  
+  "company_preferences": {
+    "company_stages": [
+      "startup",
+      "growth",
+      "public",
+      "series_b_plus"
+    ],
+    "company_sizes": [
+      "51-200",
+      "201-500", 
+      "501-1000",
+      "1001-5000"
+    ],
+    "preferred_companies": [
+      "Stripe",
+      "Square", 
+      "Plaid",
+      "Coinbase",
+      "Robinhood",
+      "Chime",
+      "Affirm",
+      "Klarna",
+      "PayPal",
+      "Visa",
+      "Mastercard",
+      "Capital One",
+      "JPMorgan Chase",
+      "Goldman Sachs",
+      "Intuit",
+      "Brex",
+      "Mercury"
+    ],
+    "avoid_companies": []
+  },
+  
+  "compensation": {
+    "minimum_base_salary": 120000,
+    "target_total_comp": 200000,
+    "equity_importance": "high",
+    "benefits_priorities": [
+      "health insurance",
+      "401k matching", 
+      "equity upside",
+      "unlimited PTO",
+      "professional development"
+    ]
+  },
+  
+  "keywords": {
+    "high_priority": [
+      "fintech",
+      "payments",
+      "banking", 
+      "financial services",
+      "cryptocurrency",
+      "blockchain",
+      "lending",
+      "credit",
+      "fraud",
+      "compliance",
+      "risk management",
+      "API products",
+      "B2B payments"
+    ],
+    "bonus_keywords": [
+      "product-market fit",
+      "0-1 products",
+      "growth",
+      "marketplace",
+      "platform",
+      "developer tools",
+      "enterprise sales"
+    ]
+  }
+}

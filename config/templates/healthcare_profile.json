@@ -1,0 +1,190 @@
+{
+  "meta": {
+    "template": "healthcare",
+    "version": "1.0", 
+    "description": "Optimized for Product Manager roles in healthcare, healthtech, and medical devices"
+  },
+  
+  "experience": {
+    "years_of_pm_experience": 3,
+    "current_title": "Product Manager",
+    "seniority_level": "mid",
+    "previous_roles": ["Associate PM", "Clinical Analyst", "Healthcare Consultant"]
+  },
+  
+  "target_roles": {
+    "primary_titles": [
+      "Product Manager",
+      "Senior Product Manager", 
+      "Healthcare Product Manager",
+      "Clinical Product Manager",
+      "Medical Device PM"
+    ],
+    "secondary_titles": [
+      "Product Owner",
+      "Digital Health PM", 
+      "Biotech Product Manager",
+      "Health Tech PM",
+      "Medical Software PM"
+    ],
+    "avoid_titles": [
+      "Clinical Manager",
+      "Medical Sales",
+      "Healthcare Administrator",
+      "Nurse Manager"
+    ]
+  },
+  
+  "skills": {
+    "core_pm_skills": [
+      "product strategy",
+      "clinical workflow analysis",
+      "user research",
+      "regulatory compliance", 
+      "data analysis",
+      "stakeholder management",
+      "market research",
+      "clinical trial design",
+      "healthcare economics"
+    ],
+    "technical_skills": [
+      "SQL",
+      "HL7/FHIR",
+      "HIPAA compliance",
+      "clinical data standards",
+      "EHR integrations", 
+      "medical device regulations",
+      "FDA approval process",
+      "clinical informatics",
+      "healthcare analytics",
+      "interoperability"
+    ],
+    "domain_expertise": [
+      "healthcare",
+      "digital health",
+      "clinical workflows",
+      "patient experience",
+      "provider tools",
+      "medical devices", 
+      "telemedicine",
+      "clinical decision support",
+      "population health"
+    ]
+  },
+  
+  "industries": {
+    "primary_experience": [
+      "healthcare",
+      "digital health",
+      "medical devices", 
+      "healthtech"
+    ],
+    "secondary_experience": [
+      "biotechnology",
+      "pharmaceuticals",
+      "healthcare IT"
+    ],
+    "interested_in": [
+      "AI in healthcare",
+      "precision medicine", 
+      "mental health",
+      "chronic disease management",
+      "healthcare accessibility",
+      "clinical research"
+    ],
+    "avoid_industries": [
+      "tobacco",
+      "adult content"
+    ]
+  },
+  
+  "geographic_preferences": {
+    "remote_preference": "hybrid_preferred",
+    "preferred_locations": [
+      "Boston",
+      "San Francisco",
+      "New York", 
+      "Remote",
+      "Seattle",
+      "Research Triangle",
+      "Philadelphia"
+    ],
+    "acceptable_commute": "45 minutes"
+  },
+  
+  "company_preferences": {
+    "company_stages": [
+      "startup",
+      "growth", 
+      "public",
+      "series_a_plus"
+    ],
+    "company_sizes": [
+      "11-50",
+      "51-200",
+      "201-500",
+      "501-1000"
+    ],
+    "preferred_companies": [
+      "Epic",
+      "Cerner",
+      "Teladoc",
+      "Amwell", 
+      "Dexcom",
+      "Veracyte",
+      "23andMe",
+      "Color Genomics",
+      "Livongo",
+      "Oscar Health",
+      "Flatiron Health",
+      "Tempus",
+      "Guardant Health", 
+      "10x Genomics",
+      "Illumina",
+      "Moderna",
+      "Johnson & Johnson"
+    ],
+    "avoid_companies": []
+  },
+  
+  "compensation": {
+    "minimum_base_salary": 110000,
+    "target_total_comp": 180000,
+    "equity_importance": "high",
+    "benefits_priorities": [
+      "health insurance",
+      "401k matching",
+      "professional development", 
+      "flexible work arrangements",
+      "healthcare benefits"
+    ]
+  },
+  
+  "keywords": {
+    "high_priority": [
+      "healthcare",
+      "digital health",
+      "clinical",
+      "medical",
+      "patient",
+      "provider", 
+      "EHR",
+      "HIPAA",
+      "FDA",
+      "clinical workflow",
+      "healthcare technology",
+      "medical devices",
+      "telemedicine",
+      "clinical research"
+    ],
+    "bonus_keywords": [
+      "AI/ML in healthcare",
+      "clinical decision support",
+      "population health",
+      "precision medicine", 
+      "interoperability",
+      "value-based care",
+      "patient engagement"
+    ]
+  }
+}

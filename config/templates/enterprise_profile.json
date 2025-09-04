@@ -1,0 +1,188 @@
+{
+  "meta": {
+    "template": "enterprise", 
+    "version": "1.0",
+    "description": "Optimized for Product Manager roles in enterprise software, B2B SaaS, and large corporations"
+  },
+  
+  "experience": {
+    "years_of_pm_experience": 4,
+    "current_title": "Senior Product Manager",
+    "seniority_level": "senior",
+    "previous_roles": ["Product Manager", "Business Analyst", "Solutions Consultant"]
+  },
+  
+  "target_roles": {
+    "primary_titles": [
+      "Senior Product Manager",
+      "Principal Product Manager",
+      "Product Manager", 
+      "Enterprise Product Manager",
+      "Platform Product Manager"
+    ],
+    "secondary_titles": [
+      "Product Lead",
+      "Director of Product",
+      "VP of Product",
+      "Head of Product", 
+      "Chief Product Officer"
+    ],
+    "avoid_titles": [
+      "Associate PM",
+      "Junior PM",
+      "Consumer PM"
+    ]
+  },
+  
+  "skills": {
+    "core_pm_skills": [
+      "enterprise sales alignment",
+      "B2B product strategy", 
+      "stakeholder management",
+      "roadmap prioritization",
+      "customer success integration",
+      "competitive analysis",
+      "market research",
+      "enterprise architecture",
+      "scalability planning", 
+      "security compliance"
+    ],
+    "technical_skills": [
+      "SQL", 
+      "APIs",
+      "enterprise integrations",
+      "security protocols",
+      "compliance frameworks",
+      "system architecture",
+      "data governance", 
+      "cloud platforms",
+      "enterprise software",
+      "SaaS metrics"
+    ],
+    "domain_expertise": [
+      "B2B software",
+      "enterprise sales", 
+      "SaaS platforms",
+      "enterprise architecture",
+      "business intelligence",
+      "workflow automation",
+      "collaboration tools",
+      "productivity software",
+      "developer tools"
+    ]
+  },
+  
+  "industries": {
+    "primary_experience": [
+      "enterprise software",
+      "B2B SaaS", 
+      "technology",
+      "business intelligence"
+    ],
+    "secondary_experience": [
+      "consulting",
+      "financial services",
+      "healthcare IT"
+    ],
+    "interested_in": [
+      "AI/ML platforms", 
+      "automation tools",
+      "developer platforms",
+      "data analytics",
+      "cybersecurity",
+      "cloud infrastructure"
+    ],
+    "avoid_industries": [
+      "consumer apps",
+      "gaming",
+      "social media"
+    ]
+  },
+  
+  "geographic_preferences": {
+    "remote_preference": "hybrid_preferred",
+    "preferred_locations": [
+      "San Francisco",
+      "Seattle", 
+      "New York",
+      "Austin",
+      "Boston",
+      "Remote",
+      "Chicago"
+    ],
+    "acceptable_commute": "45 minutes"
+  },
+  
+  "company_preferences": {
+    "company_stages": [
+      "public", 
+      "mature",
+      "growth"
+    ],
+    "company_sizes": [
+      "501-1000",
+      "1001-5000",
+      "5000+"
+    ],
+    "preferred_companies": [
+      "Microsoft",
+      "Oracle", 
+      "Salesforce",
+      "ServiceNow",
+      "Workday",
+      "SAP",
+      "IBM",
+      "VMware",
+      "Cisco", 
+      "Adobe",
+      "Atlassian",
+      "Slack", 
+      "Zoom",
+      "DocuSign",
+      "Box",
+      "Dropbox Business",
+      "Snowflake"
+    ],
+    "avoid_companies": []
+  },
+  
+  "compensation": {
+    "minimum_base_salary": 140000,
+    "target_total_comp": 240000,
+    "equity_importance": "medium", 
+    "benefits_priorities": [
+      "health insurance",
+      "401k matching",
+      "professional development",
+      "flexible work arrangements",
+      "stock options"
+    ]
+  },
+  
+  "keywords": {
+    "high_priority": [
+      "enterprise", 
+      "B2B",
+      "SaaS",
+      "platform",
+      "enterprise sales",
+      "business intelligence",
+      "workflow",
+      "productivity", 
+      "collaboration",
+      "scalability",
+      "security",
+      "compliance",
+      "integrations"
+    ],
+    "bonus_keywords": [
+      "enterprise architecture",
+      "API platform", 
+      "developer tools",
+      "business automation",
+      "data analytics",
+      "cloud platform",
+      "enterprise security"
+    ]
+  }
+}

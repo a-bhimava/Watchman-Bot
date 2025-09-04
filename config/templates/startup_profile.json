@@ -1,0 +1,197 @@
+{
+  "meta": {
+    "template": "startup",
+    "version": "1.0",
+    "description": "Optimized for Product Manager roles in startups, early-stage companies, and 0-1 products"
+  },
+  
+  "experience": {
+    "years_of_pm_experience": 2,
+    "current_title": "Product Manager",
+    "seniority_level": "mid",
+    "previous_roles": ["Associate PM", "Startup Founder", "Growth Analyst"]
+  },
+  
+  "target_roles": {
+    "primary_titles": [
+      "Product Manager",
+      "Senior Product Manager",
+      "Founding Product Manager", 
+      "Head of Product",
+      "VP of Product"
+    ],
+    "secondary_titles": [
+      "Product Lead",
+      "0-1 Product Manager", 
+      "Growth Product Manager",
+      "Technical Product Manager",
+      "Product Generalist"
+    ],
+    "avoid_titles": [
+      "Enterprise PM",
+      "Program Manager",
+      "Project Manager",
+      "Operations Manager"
+    ]
+  },
+  
+  "skills": {
+    "core_pm_skills": [
+      "product-market fit",
+      "0-1 product development",
+      "user research",
+      "rapid experimentation", 
+      "growth hacking",
+      "data analysis",
+      "customer discovery",
+      "MVP development", 
+      "lean startup methodology",
+      "resource prioritization"
+    ],
+    "technical_skills": [
+      "SQL",
+      "Python",
+      "A/B testing",
+      "analytics tools",
+      "no-code tools", 
+      "API basics",
+      "web development basics",
+      "mobile app basics",
+      "growth tools",
+      "user tracking"
+    ],
+    "domain_expertise": [
+      "consumer products",
+      "mobile apps",
+      "web platforms",
+      "marketplace design",
+      "network effects", 
+      "viral growth",
+      "product-led growth",
+      "freemium models",
+      "two-sided markets"
+    ]
+  },
+  
+  "industries": {
+    "primary_experience": [
+      "startups",
+      "technology",
+      "consumer apps",
+      "marketplace"
+    ],
+    "secondary_experience": [
+      "e-commerce",
+      "social media",
+      "gaming", 
+      "creator economy"
+    ],
+    "interested_in": [
+      "AI/ML products",
+      "web3/crypto",
+      "climate tech",
+      "edtech", 
+      "creator tools",
+      "productivity apps",
+      "social platforms"
+    ],
+    "avoid_industries": [
+      "enterprise software",
+      "consulting",
+      "traditional banking"
+    ]
+  },
+  
+  "geographic_preferences": {
+    "remote_preference": "remote_first",
+    "preferred_locations": [
+      "Remote",
+      "San Francisco",
+      "New York", 
+      "Los Angeles",
+      "Seattle",
+      "Austin",
+      "Miami"
+    ],
+    "acceptable_commute": "30 minutes"
+  },
+  
+  "company_preferences": {
+    "company_stages": [
+      "pre_seed",
+      "seed",
+      "series_a",
+      "series_b"
+    ],
+    "company_sizes": [
+      "2-10",
+      "11-50", 
+      "51-200"
+    ],
+    "preferred_companies": [
+      "Y Combinator companies",
+      "Techstars companies",
+      "a16z portfolio",
+      "Sequoia portfolio",
+      "Founders Fund portfolio", 
+      "Discord",
+      "Notion",
+      "Linear",
+      "Figma",
+      "Vercel",
+      "OpenAI", 
+      "Anthropic",
+      "Midjourney",
+      "Replicate",
+      "Stability AI"
+    ],
+    "avoid_companies": [
+      "Large enterprises",
+      "Traditional banks",
+      "Government contractors"
+    ]
+  },
+  
+  "compensation": {
+    "minimum_base_salary": 90000,
+    "target_total_comp": 160000,
+    "equity_importance": "very_high",
+    "benefits_priorities": [
+      "equity upside",
+      "health insurance", 
+      "flexible work",
+      "professional development",
+      "startup perks"
+    ]
+  },
+  
+  "keywords": {
+    "high_priority": [
+      "0-1 product",
+      "product-market fit",
+      "early stage",
+      "startup", 
+      "founding",
+      "growth",
+      "consumer",
+      "mobile",
+      "marketplace",
+      "network effects",
+      "viral",
+      "MVP",
+      "lean startup"
+    ],
+    "bonus_keywords": [
+      "Y Combinator",
+      "venture backed",
+      "series A", 
+      "product-led growth",
+      "freemium",
+      "two-sided market",
+      "platform",
+      "creator economy",
+      "AI/ML",
+      "web3"
+    ]
+  }
+}

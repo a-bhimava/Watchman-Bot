@@ -1,0 +1,189 @@
+{
+  "meta": {
+    "template": "new_grad",
+    "version": "1.0",
+    "description": "Optimized for entry-level PM roles, APM programs, and new graduate opportunities"
+  },
+  
+  "experience": {
+    "years_of_pm_experience": 0,
+    "current_title": "Recent Graduate",
+    "seniority_level": "entry",
+    "previous_roles": ["Intern", "MBA Student", "Business Analyst Intern"]
+  },
+  
+  "target_roles": {
+    "primary_titles": [
+      "Associate Product Manager",
+      "APM",
+      "Product Manager",
+      "Junior Product Manager",
+      "Entry Level PM"
+    ],
+    "secondary_titles": [
+      "Product Analyst",
+      "Business Analyst", 
+      "Strategy Associate",
+      "Product Marketing Manager",
+      "Operations Analyst"
+    ],
+    "avoid_titles": [
+      "Senior Product Manager",
+      "Principal PM", 
+      "Director of Product",
+      "Head of Product"
+    ]
+  },
+  
+  "skills": {
+    "core_pm_skills": [
+      "problem solving",
+      "analytical thinking", 
+      "user empathy",
+      "communication",
+      "project management",
+      "data analysis",
+      "market research",
+      "presentation skills",
+      "collaboration",
+      "learning agility"
+    ],
+    "technical_skills": [
+      "SQL",
+      "Excel/Sheets",
+      "Python basics",
+      "data analysis", 
+      "basic statistics",
+      "A/B testing concepts",
+      "wireframing",
+      "user research methods",
+      "analytics tools",
+      "project management tools"
+    ],
+    "domain_expertise": [
+      "academic projects",
+      "internship experience",
+      "case study analysis", 
+      "business strategy",
+      "market analysis",
+      "consumer behavior",
+      "technology trends"
+    ]
+  },
+  
+  "industries": {
+    "primary_experience": [
+      "technology",
+      "software",
+      "consumer products"
+    ],
+    "secondary_experience": [
+      "e-commerce",
+      "fintech", 
+      "healthcare",
+      "education"
+    ],
+    "interested_in": [
+      "AI/ML",
+      "mobile apps",
+      "social platforms",
+      "productivity tools", 
+      "gaming",
+      "creator economy",
+      "sustainability tech"
+    ],
+    "avoid_industries": [
+      "adult content",
+      "tobacco",
+      "gambling"
+    ]
+  },
+  
+  "geographic_preferences": {
+    "remote_preference": "open_to_all",
+    "preferred_locations": [
+      "San Francisco",
+      "New York", 
+      "Seattle",
+      "Austin",
+      "Boston",
+      "Los Angeles",
+      "Remote"
+    ],
+    "acceptable_commute": "45 minutes"
+  },
+  
+  "company_preferences": {
+    "company_stages": [
+      "public",
+      "growth", 
+      "series_b_plus"
+    ],
+    "company_sizes": [
+      "201-500",
+      "501-1000",
+      "1001-5000",
+      "5000+"
+    ],
+    "preferred_companies": [
+      "Google",
+      "Meta", 
+      "Microsoft",
+      "Amazon",
+      "Apple",
+      "Netflix",
+      "Uber",
+      "Airbnb",
+      "Spotify", 
+      "Twitter/X",
+      "LinkedIn",
+      "Dropbox",
+      "Salesforce",
+      "Adobe",
+      "Atlassian",
+      "Slack",
+      "Zoom"
+    ],
+    "avoid_companies": []
+  },
+  
+  "compensation": {
+    "minimum_base_salary": 80000,
+    "target_total_comp": 140000,
+    "equity_importance": "high",
+    "benefits_priorities": [
+      "health insurance",
+      "professional development", 
+      "mentorship programs",
+      "learning opportunities",
+      "career progression"
+    ]
+  },
+  
+  "keywords": {
+    "high_priority": [
+      "APM",
+      "associate product manager",
+      "entry level",
+      "new grad", 
+      "recent graduate",
+      "junior",
+      "rotational program",
+      "MBA",
+      "MSPM",
+      "early career",
+      "trainee",
+      "development program"
+    ],
+    "bonus_keywords": [
+      "mentorship",
+      "training program", 
+      "career development",
+      "growth opportunity",
+      "learning",
+      "fresh graduate",
+      "university hire",
+      "campus recruitment"
+    ]
+  }
+}

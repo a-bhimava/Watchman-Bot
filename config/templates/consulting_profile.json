@@ -1,0 +1,189 @@
+{
+  "meta": {
+    "template": "consulting",
+    "version": "1.0",
+    "description": "Optimized for Product Manager roles in consulting, strategy, and operations"
+  },
+  
+  "experience": {
+    "years_of_pm_experience": 3,
+    "current_title": "Senior Consultant",
+    "seniority_level": "mid",
+    "previous_roles": ["Consultant", "Business Analyst", "Strategy Associate"]
+  },
+  
+  "target_roles": {
+    "primary_titles": [
+      "Product Manager", 
+      "Senior Product Manager",
+      "Strategy Product Manager",
+      "Operations Product Manager",
+      "Principal Product Manager"
+    ],
+    "secondary_titles": [
+      "Product Strategy Lead",
+      "Digital Transformation PM",
+      "Platform Product Manager",
+      "Enterprise Product Manager",
+      "Internal Tools PM"
+    ],
+    "avoid_titles": [
+      "Management Consultant",
+      "Strategy Consultant", 
+      "Client Manager",
+      "Engagement Manager"
+    ]
+  },
+  
+  "skills": {
+    "core_pm_skills": [
+      "strategic planning",
+      "business case development",
+      "stakeholder management",
+      "process optimization",
+      "data analysis", 
+      "market research",
+      "competitive analysis",
+      "change management",
+      "executive communication",
+      "problem solving"
+    ],
+    "technical_skills": [
+      "SQL",
+      "Python",
+      "Excel/Sheets mastery",
+      "PowerBI/Tableau",
+      "process mapping",
+      "systems thinking", 
+      "data visualization",
+      "financial modeling",
+      "project management",
+      "agile methodologies"
+    ],
+    "domain_expertise": [
+      "strategy",
+      "operations",
+      "digital transformation",
+      "process improvement",
+      "organizational design", 
+      "business analysis",
+      "enterprise software",
+      "internal tools",
+      "consulting methodologies"
+    ]
+  },
+  
+  "industries": {
+    "primary_experience": [
+      "consulting",
+      "professional services",
+      "strategy",
+      "operations"
+    ],
+    "secondary_experience": [
+      "technology",
+      "financial services", 
+      "healthcare",
+      "retail"
+    ],
+    "interested_in": [
+      "digital transformation",
+      "enterprise software",
+      "B2B tools",
+      "productivity platforms",
+      "workflow automation",
+      "business intelligence"
+    ],
+    "avoid_industries": [
+      "adult content",
+      "gambling"
+    ]
+  },
+  
+  "geographic_preferences": {
+    "remote_preference": "hybrid_preferred",
+    "preferred_locations": [
+      "New York",
+      "San Francisco",
+      "Boston", 
+      "Chicago",
+      "Washington DC",
+      "Remote",
+      "Los Angeles"
+    ],
+    "acceptable_commute": "60 minutes"
+  },
+  
+  "company_preferences": {
+    "company_stages": [
+      "growth",
+      "public",
+      "mature"
+    ],
+    "company_sizes": [
+      "201-500",
+      "501-1000", 
+      "1001-5000",
+      "5000+"
+    ],
+    "preferred_companies": [
+      "McKinsey & Company",
+      "Boston Consulting Group", 
+      "Bain & Company",
+      "Deloitte",
+      "EY",
+      "PwC", 
+      "KPMG",
+      "Accenture",
+      "IBM",
+      "Palantir",
+      "Salesforce",
+      "ServiceNow",
+      "Workday",
+      "Oracle",
+      "SAP",
+      "Microsoft",
+      "Google"
+    ],
+    "avoid_companies": []
+  },
+  
+  "compensation": {
+    "minimum_base_salary": 130000,
+    "target_total_comp": 220000,
+    "equity_importance": "medium",
+    "benefits_priorities": [
+      "health insurance",
+      "401k matching", 
+      "professional development",
+      "travel reimbursement",
+      "flexible work arrangements"
+    ]
+  },
+  
+  "keywords": {
+    "high_priority": [
+      "strategy",
+      "operations", 
+      "consulting",
+      "transformation",
+      "enterprise",
+      "B2B",
+      "platform",
+      "internal tools",
+      "process improvement",
+      "business analysis",
+      "stakeholder management",
+      "executive"
+    ],
+    "bonus_keywords": [
+      "digital transformation",
+      "change management",
+      "organizational design", 
+      "business intelligence",
+      "workflow automation",
+      "enterprise architecture",
+      "systems integration"
+    ]
+  }
+}
