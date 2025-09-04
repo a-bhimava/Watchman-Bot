@@ -8,11 +8,11 @@ into a comprehensive job relevance algorithm for Product Managers.
 from typing import List, Dict, Any, Optional
 from datetime import datetime
 
-from .scoring_engine import ScoringEngine, ScoringReason, ScoreWeight, JobScore
-from .scorers import TitleScorer, SkillsScorer, ExperienceScorer, IndustryScorer, CompanyScorer
-from ..integrations.rss_processor import JobData
-from ..core.config_loader import PMProfile, SystemSettings
-from ..utils.logger import get_logger
+from core.scoring_engine import ScoringEngine, ScoringReason, ScoreWeight, JobScore
+from core.scorers import TitleScorer, SkillsScorer, ExperienceScorer, IndustryScorer, CompanyScorer
+from integrations.rss_processor import JobData
+from core.config_loader import PMProfile, SystemSettings
+from utils.logger import get_logger
 
 
 class BonusScorer:

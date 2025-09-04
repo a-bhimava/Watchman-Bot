@@ -12,9 +12,9 @@ from enum import Enum
 import logging
 from datetime import datetime
 
-from ..integrations.rss_processor import JobData
-from ..core.config_loader import PMProfile, SystemSettings
-from ..utils.logger import get_logger, performance_tracker
+from integrations.rss_processor import JobData
+from core.config_loader import PMProfile, SystemSettings
+from utils.logger import get_logger, performance_tracker
 
 
 class ScoreWeight(Enum):

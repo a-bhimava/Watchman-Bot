@@ -10,9 +10,9 @@ from typing import List, Set, Dict, Any, Optional
 from difflib import SequenceMatcher
 from datetime import datetime, timedelta
 
-from .scoring_engine import BaseScorer, ScoringReason, ScoreWeight
-from ..integrations.rss_processor import JobData
-from ..core.config_loader import PMProfile, SystemSettings
+from core.scoring_engine import BaseScorer, ScoringReason, ScoreWeight
+from integrations.rss_processor import JobData
+from core.config_loader import PMProfile, SystemSettings
 
 
 class TitleScorer(BaseScorer):

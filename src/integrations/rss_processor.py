@@ -16,8 +16,8 @@ from urllib.parse import urlparse, urljoin
 import time
 from bs4 import BeautifulSoup
 
-from ..utils.logger import get_logger, performance_tracker, log_context, LogContext
-from ..utils.error_handler import (
+from utils.logger import get_logger, performance_tracker, log_context, LogContext
+from utils.error_handler import (
     retry_on_failure, graceful_degradation, NetworkError, 
     DataProcessingError, get_error_handler
 )
