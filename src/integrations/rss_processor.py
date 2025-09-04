@@ -167,7 +167,7 @@ class RSSFeedProcessor:
     
     @performance_tracker("rss_processor", "fetch_feed")
     @retry_on_failure(max_attempts=3, base_delay=2.0, circuit_breaker_service="rss_feeds")
-    def _fetch_feed_data(self, url: str, feed_name: str) -> Any:
+    def _fetch_feed_data(self, url: str, feed_name: str, feed_config: Dict[str, Any] = None) -> Any:
         """
         Fetch RSS feed data with error handling.
         
@@ -184,13 +184,18 @@ class RSSFeedProcessor:
         start_time = time.time()
         
         try:
-            # Check cache first
+            # Check if this is a high-frequency feed that should bypass cache
+            is_high_frequency = feed_config and feed_config.get('high_frequency', False)
+            
+            # Check cache first (unless high frequency)
             cache_key = url
-            if cache_key in self._feed_cache:
+            if not is_high_frequency and cache_key in self._feed_cache:
                 cached_time, cached_data = self._feed_cache[cache_key]
                 if (datetime.now() - cached_time).seconds < self.cache_duration:
                     self.logger.debug(f"Using cached data for feed {feed_name}")
                     return cached_data
+            elif is_high_frequency:
+                self.logger.debug(f"Bypassing cache for high-frequency feed {feed_name}")
             
             # Fetch feed
             self.logger.debug(f"Fetching RSS feed: {feed_name} ({url})")
@@ -582,7 +587,7 @@ class RSSFeedProcessor:
                 self.logger.info(f"Processing RSS feed: {feed_name}", extra={"context": context})
                 
                 # Fetch and parse feed
-                feed_data = self._fetch_feed_data(health.url, feed_name)
+                feed_data = self._fetch_feed_data(health.url, feed_name, feed_configs.get(feed_name, {}))
                 
                 # Extract jobs
                 jobs = self._extract_jobs_from_feed(feed_data, feed_name)

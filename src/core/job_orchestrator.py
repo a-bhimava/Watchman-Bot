@@ -471,11 +471,8 @@ def create_default_discovery_config(
 ) -> DiscoveryConfig:
     """Create default discovery configuration optimized for PM jobs."""
     
-    # Default RSS feeds for PM jobs
-    default_rss_feeds = {
-        "pm_jobs_general": "https://www.example.com/pm-jobs.rss",  # Placeholder
-        "tech_jobs": "https://www.example.com/tech-jobs.rss"       # Placeholder
-    }
+    # Use RSS feeds from configuration - no hardcoded defaults
+    default_rss_feeds = {}
     
     linkedin_config = None
     if enable_linkedin:

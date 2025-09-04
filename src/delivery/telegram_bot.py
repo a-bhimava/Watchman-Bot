@@ -546,7 +546,7 @@ Ready to find your next PM role? Use /search to get started! 🚀
         
         await update.message.reply_text(
             welcome_message, 
-            parse_mode=ParseMode.MARKDOWN_V2
+            parse_mode=None  # Use plain text to avoid formatting issues
         )
         
         self.user_db.update_last_active(user_id)

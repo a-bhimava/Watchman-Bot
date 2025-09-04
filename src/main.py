@@ -428,7 +428,6 @@ Examples:
             try:
                 from delivery.delivery_orchestrator import run_delivery_system_cli
                 import asyncio
-                import os
                 
                 # Set token in environment for the CLI function
                 os.environ["TELEGRAM_BOT_TOKEN"] = bot_token

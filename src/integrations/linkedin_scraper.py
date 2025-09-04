@@ -40,7 +40,7 @@ class LinkedInSearchConfig:
     remote_options: List[str]  # ["remote", "hybrid", "onsite"]
     company_sizes: List[str]  # ["startup", "small", "medium", "large", "enterprise"]
     max_results_per_search: int = 100
-    search_delay_range: Tuple[int, int] = (3, 8)  # seconds
+    search_delay_range: Tuple[int, int] = (8, 15)  # seconds - more conservative
 
 
 @dataclass
@@ -579,7 +579,7 @@ class LinkedInScraper:
 def create_pm_search_config(
     location: str = "Remote", 
     experience_levels: List[str] = None,
-    date_posted: str = "week"
+    date_posted: str = "24hr"
 ) -> LinkedInSearchConfig:
     """Create a LinkedIn search configuration optimized for PM jobs."""
     

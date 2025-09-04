@@ -95,35 +95,35 @@ class DeliveryOrchestrator:
     async def initialize(self) -> bool:
         """Initialize all system components."""
         try:
-            with log_context(operation="orchestrator_initialization"):
-                self.logger.info("Initializing PM Watchman Delivery Orchestrator")
-                
-                # Load configuration
-                if not await self._load_configuration():
-                    return False
-                
-                # Initialize storage
-                if not await self._initialize_storage():
-                    return False
-                
-                # Initialize job discovery
-                if not await self._initialize_job_discovery():
-                    return False
-                
-                # Initialize Telegram bot
-                if not await self._initialize_telegram_bot():
-                    return False
-                
-                # Initialize delivery scheduler
-                if not await self._initialize_delivery_scheduler():
-                    return False
-                
-                # Initialize health monitoring
-                if not await self._initialize_health_monitoring():
-                    return False
-                
-                self.logger.info("PM Watchman Delivery Orchestrator initialized successfully")
-                return True
+            # Initialize orchestrator
+            self.logger.info("Initializing PM Watchman Delivery Orchestrator")
+            
+            # Load configuration
+            if not await self._load_configuration():
+                return False
+            
+            # Initialize storage
+            if not await self._initialize_storage():
+                return False
+            
+            # Initialize job discovery
+            if not await self._initialize_job_discovery():
+                return False
+            
+            # Initialize Telegram bot
+            if not await self._initialize_telegram_bot():
+                return False
+            
+            # Initialize delivery scheduler
+            if not await self._initialize_delivery_scheduler():
+                return False
+            
+            # Initialize health monitoring
+            if not await self._initialize_health_monitoring():
+                return False
+            
+            self.logger.info("PM Watchman Delivery Orchestrator initialized successfully")
+            return True
                 
         except Exception as e:
             self.logger.error(f"Failed to initialize orchestrator: {e}", exc_info=True)
@@ -134,7 +134,7 @@ class DeliveryOrchestrator:
         try:
             self.config_loader = ConfigLoader(self.config_directory)
             
-            self.pm_profile, self.system_settings, job_sources = self.config_loader.load_all_configs()
+            self.pm_profile, self.system_settings, self.job_sources = self.config_loader.load_all_configs()
             
             self.logger.info("Configuration loaded successfully")
             return True
@@ -164,10 +164,28 @@ class DeliveryOrchestrator:
         try:
             from core.job_orchestrator import create_default_discovery_config
             
+            # Extract RSS feeds from job_sources configuration
+            rss_feeds = {}
+            if hasattr(self.job_sources, 'rss_feeds') or 'rss_feeds' in self.job_sources:
+                rss_data = getattr(self.job_sources, 'rss_feeds', None) or self.job_sources.get('rss_feeds', {})
+                
+                if isinstance(rss_data, dict):
+                    if rss_data.get('enabled', False):
+                        feeds = rss_data.get('feeds', {})
+                        for feed_name, feed_config in feeds.items():
+                            if isinstance(feed_config, dict) and feed_config.get('enabled', False):
+                                rss_feeds[feed_name] = feed_config.get('url', '')
+                elif hasattr(rss_data, 'enabled') and rss_data.enabled:
+                    for feed_name, feed_config in rss_data.feeds.items():
+                        if hasattr(feed_config, 'enabled') and feed_config.enabled:
+                            rss_feeds[feed_name] = feed_config.url
+            
+            self.logger.info(f"Configured {len(rss_feeds)} RSS feeds: {list(rss_feeds.keys())}")
+            
             discovery_config = create_default_discovery_config(
                 pm_profile=self.pm_profile,
                 enable_linkedin=True,
-                rss_feeds={}  # Add RSS feeds from config if needed
+                rss_feeds=rss_feeds
             )
             
             # Override some settings for delivery optimization
@@ -252,32 +270,32 @@ class DeliveryOrchestrator:
             return True
         
         try:
-            with log_context(operation="system_startup"):
-                self.logger.info("Starting PM Watchman delivery system")
-                
-                self.is_running = True
-                self.start_time = datetime.now()
-                self._shutdown_event.clear()
-                
-                # Start health monitoring first
-                if self.health_monitor:
-                    self.health_monitor.start_monitoring()
-                    self.logger.info("Health monitoring started")
-                
-                # Start Telegram bot
-                await self.telegram_bot.start_bot()
-                self.logger.info("Telegram bot started")
-                
-                # Start delivery scheduler
-                self.delivery_scheduler.start_scheduler()
-                self.logger.info("Delivery scheduler started")
-                
-                # Start discovery loop
-                self._discovery_task = asyncio.create_task(self._discovery_loop())
-                self.logger.info("Discovery loop started")
-                
-                self.logger.info("PM Watchman delivery system started successfully")
-                return True
+            # System startup
+            self.logger.info("Starting PM Watchman delivery system")
+            
+            self.is_running = True
+            self.start_time = datetime.now()
+            self._shutdown_event.clear()
+            
+            # Start health monitoring first
+            if self.health_monitor:
+                self.health_monitor.start_monitoring()
+                self.logger.info("Health monitoring started")
+            
+            # Start Telegram bot
+            await self.telegram_bot.start_bot()
+            self.logger.info("Telegram bot started")
+            
+            # Start delivery scheduler
+            self.delivery_scheduler.start_scheduler()
+            self.logger.info("Delivery scheduler started")
+            
+            # Start discovery loop
+            self._discovery_task = asyncio.create_task(self._discovery_loop())
+            self.logger.info("Discovery loop started")
+            
+            self.logger.info("PM Watchman delivery system started successfully")
+            return True
                 
         except Exception as e:
             self.logger.error(f"Failed to start system: {e}", exc_info=True)
@@ -291,41 +309,41 @@ class DeliveryOrchestrator:
             return
         
         try:
-            with log_context(operation="system_shutdown"):
-                self.logger.info("Stopping PM Watchman delivery system")
-                
-                self.is_running = False
-                self._shutdown_event.set()
-                
-                # Stop discovery loop
-                if self._discovery_task and not self._discovery_task.done():
-                    self._discovery_task.cancel()
-                    try:
-                        await self._discovery_task
-                    except asyncio.CancelledError:
-                        pass
-                
-                # Stop delivery scheduler
-                if self.delivery_scheduler:
-                    self.delivery_scheduler.stop_scheduler()
-                    self.logger.info("Delivery scheduler stopped")
-                
-                # Stop Telegram bot
-                if self.telegram_bot:
-                    await self.telegram_bot.stop_bot()
-                    self.logger.info("Telegram bot stopped")
-                
-                # Stop health monitoring
-                if self.health_monitor:
-                    self.health_monitor.stop_monitoring()
-                    self.logger.info("Health monitoring stopped")
-                
-                # Shutdown job orchestrator
-                if self.job_orchestrator:
-                    self.job_orchestrator.shutdown(wait_for_completion=False)
-                    self.logger.info("Job orchestrator stopped")
-                
-                self.logger.info("PM Watchman delivery system stopped")
+            # System shutdown
+            self.logger.info("Stopping PM Watchman delivery system")
+            
+            self.is_running = False
+            self._shutdown_event.set()
+            
+            # Stop discovery loop
+            if self._discovery_task and not self._discovery_task.done():
+                self._discovery_task.cancel()
+                try:
+                    await self._discovery_task
+                except asyncio.CancelledError:
+                    pass
+            
+            # Stop delivery scheduler
+            if self.delivery_scheduler:
+                self.delivery_scheduler.stop_scheduler()
+                self.logger.info("Delivery scheduler stopped")
+            
+            # Stop Telegram bot
+            if self.telegram_bot:
+                await self.telegram_bot.stop_bot()
+                self.logger.info("Telegram bot stopped")
+            
+            # Stop health monitoring
+            if self.health_monitor:
+                self.health_monitor.stop_monitoring()
+                self.logger.info("Health monitoring stopped")
+            
+            # Shutdown job orchestrator
+            if self.job_orchestrator:
+                self.job_orchestrator.shutdown(wait_for_completion=False)
+                self.logger.info("Job orchestrator stopped")
+            
+            self.logger.info("PM Watchman delivery system stopped")
                 
         except Exception as e:
             self.logger.error(f"Error during system shutdown: {e}", exc_info=True)
@@ -357,7 +375,7 @@ class DeliveryOrchestrator:
         """Run a single discovery cycle."""
         cycle_start_time = datetime.now()
         
-        with log_context(operation="discovery_cycle"):
+        try:
             self.logger.info("Starting discovery cycle")
             
             try:
@@ -386,6 +404,9 @@ class DeliveryOrchestrator:
                 
             except Exception as e:
                 self.logger.error(f"Discovery cycle failed: {e}", exc_info=True)
+        
+        except Exception as e:
+            self.logger.error(f"Discovery cycle outer error: {e}", exc_info=True)
     
     async def _check_immediate_delivery_triggers(self, discovery_results):
         """Check if any jobs should trigger immediate delivery."""
