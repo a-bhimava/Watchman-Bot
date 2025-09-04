@@ -417,11 +417,7 @@ class RSSFeedProcessor:
         company = "Unknown Company"
         location = "Location not specified"
         
-        # Try to extract from entry metadata
-        if hasattr(entry, 'author') and entry.author:
-            company = entry.author.strip()
-        
-        # Common patterns for company extraction from title
+        # Common patterns for company extraction from title (prioritized over author field)
         company_patterns = [
             r'^([A-Z][A-Za-z\s&,.]+?)\s+hiring\s+',  # "Appian hiring Product Manager"
             r'at\s+([A-Z][A-Za-z\s&,.]+?)(?:\s*[-|]|\s*$)',
@@ -429,11 +425,19 @@ class RSSFeedProcessor:
             r'[\(]([A-Z][A-Za-z\s&,.]+?)[\)]',
         ]
         
+        # Try pattern matching first
         for pattern in company_patterns:
             match = re.search(pattern, title)
             if match:
                 company = match.group(1).strip()
                 break
+        
+        # Only use entry metadata as fallback if pattern matching failed
+        if company == "Unknown Company" and hasattr(entry, 'author') and entry.author:
+            author = entry.author.strip()
+            # Don't use generic source names as company names
+            if author.lower() not in ['linkedin', 'rss', 'feed', 'jobs']:
+                company = author
         
         # Location patterns
         location_patterns = [

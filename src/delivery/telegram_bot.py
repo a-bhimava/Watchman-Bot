@@ -103,8 +103,17 @@ class TelegramMessageFormatter:
         grade_emoji = self._get_grade_emoji(score_percentage)
         priority_text = self._get_priority_text(score_percentage)
         
+        # Extract company name from title if job.company is generic
+        company_name = job.company
+        if company_name.lower() in ['linkedin', 'rss', 'feed', 'jobs', 'unknown company']:
+            # Try to extract company from job title
+            if " hiring " in job.title:
+                company_match = re.search(r'^([A-Z][A-Za-z\s&,.]+?)\s+hiring\s+', job.title)
+                if company_match:
+                    company_name = company_match.group(1).strip()
+        
         # Simple format with proper Telegram bold formatting
-        message = f"<b>🏢 Company Name:</b> {job.company}\n\n"
+        message = f"<b>🏢 Company Name:</b> {company_name}\n\n"
         # Clean up role title (remove company name if it contains 'hiring')
         role_title = job.title
         if " hiring " in role_title:
