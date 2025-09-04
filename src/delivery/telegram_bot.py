@@ -8,6 +8,7 @@ filtering, and management commands.
 import asyncio
 import json
 import os
+import re
 from typing import List, Dict, Any, Optional, Callable
 from dataclasses import dataclass, field, asdict
 from datetime import datetime, timedelta
@@ -54,7 +55,7 @@ class TelegramUserPreferences:
     excluded_companies: List[str] = field(default_factory=list)
     required_keywords: List[str] = field(default_factory=list)
     excluded_keywords: List[str] = field(default_factory=list)
-    max_daily_jobs: int = 10
+    max_daily_jobs: int = 20
     
     # Interaction settings
     enable_job_actions: bool = True  # Save, dismiss, etc.
@@ -102,67 +103,30 @@ class TelegramMessageFormatter:
         grade_emoji = self._get_grade_emoji(score_percentage)
         priority_text = self._get_priority_text(score_percentage)
         
-        message = f"🎯 **PM Job Alert**\n\n"
-        message += f"**{self._escape_markdown(job.title)}** at **{self._escape_markdown(job.company)}**\n"
-        message += f"📍 {self._escape_markdown(job.location)}\n"
+        # Simple format with proper Telegram bold formatting
+        message = f"<b>🏢 Company Name:</b> {job.company}\n\n"
+        # Clean up role title (remove company name if it contains 'hiring')
+        role_title = job.title
+        if " hiring " in role_title:
+            # Extract just the role part after "Company hiring"
+            role_match = re.search(r'^.+?\s+hiring\s+(.+)$', role_title)
+            if role_match:
+                role_title = role_match.group(1)
         
-        # Salary information if available
-        if enriched_job.extracted_salary:
-            salary = enriched_job.extracted_salary
-            if salary.min_salary and salary.max_salary:
-                message += f"💰 ${salary.min_salary:,} - ${salary.max_salary:,}\n"
-            elif salary.min_salary:
-                message += f"💰 ${salary.min_salary:,}+\n"
-            else:
-                message += f"💰 Salary not disclosed\n"
-        else:
-            message += f"💰 Salary not disclosed\n"
+        message += f"<b>💼 Role:</b> {role_title}\n\n"
+        message += f"<b>📊 Score:</b> {score_percentage:.0f}%\n\n"
         
-        message += f"\n**Score: {score_percentage:.0f}%** | **Grade: {grade_emoji}**\n"
-        message += f"**Priority: {priority_text}**\n\n"
+        # Description
+        if hasattr(job, 'description') and job.description:
+            # Clean description and limit length
+            description = job.description.strip()
+            if len(description) > 300:
+                description = description[:300] + "..."
+            message += f"<b>📝 Description:</b>\n{description}\n\n"
         
-        # Key details section
-        message += "🔍 **Key Details:**\n"
-        
-        # Experience and seniority
-        if enriched_job.seniority_level:
-            message += f"📈 Level: {enriched_job.seniority_level.title()}\n"
-        if enriched_job.experience_required:
-            message += f"⏱️ Experience: {enriched_job.experience_required}\n"
-        
-        # Company info
-        if enriched_job.company_info:
-            if enriched_job.company_info.size:
-                message += f"🏢 Company Size: {enriched_job.company_info.size.title()}\n"
-            if enriched_job.company_info.industry:
-                message += f"🏭 Industry: {enriched_job.company_info.industry.title()}\n"
-        
-        # Remote work type
-        if enriched_job.remote_work_type and enriched_job.remote_work_type != "unknown":
-            work_type_emoji = {"remote": "🏠", "hybrid": "🔀", "onsite": "🏢"}.get(enriched_job.remote_work_type, "")
-            message += f"{work_type_emoji} Work Type: {enriched_job.remote_work_type.title()}\n"
-        
-        # Skills preview if available
-        if enriched_job.extracted_skills and enriched_job.extracted_skills.pm_skills:
-            top_skills = enriched_job.extracted_skills.pm_skills[:3]
-            message += f"🛠️ Key Skills: {', '.join(top_skills)}\n"
-        
-        # Description preview
-        if preferences.include_description_preview and hasattr(job, 'description') and job.description:
-            preview = job.description[:200] + "..." if len(job.description) > 200 else job.description
-            message += f"\n📝 **Description Preview:**\n{self._escape_markdown(preview)}\n"
-        
-        # Detailed scoring breakdown
-        if show_detailed_scoring and score:
-            message += "\n📊 **Scoring Breakdown:**\n"
-            for reason in score.scoring_reasons[:5]:  # Top 5 scoring factors
-                percentage = (reason.points / reason.max_points) * 100 if reason.max_points > 0 else 0
-                emoji = self._get_score_emoji(percentage)
-                message += f"{emoji} {reason.category.title()}: {percentage:.0f}% - {reason.explanation}\n"
-        
-        # Job posting date
+        # Date posted
         if job.posted_date:
-            message += f"\n📅 Posted: {job.posted_date}\n"
+            message += f"<b>📅 Date Posted:</b> {job.posted_date}"
         
         # Create interactive buttons
         keyboard = self._create_job_keyboard(job.id, preferences)
@@ -188,7 +152,7 @@ class TelegramMessageFormatter:
             grade_emoji = self._get_grade_emoji(score_percentage)
             
             message += f"**#{i}** {grade_emoji} **{self._escape_markdown(job.title)}** at **{self._escape_markdown(job.company)}**\n"
-            message += f"📍 {self._escape_markdown(job.location)} | 💯 Score: {score_percentage:.0f}%\n"
+            message += f"📍 {self._escape_markdown(job.location)} \\| 💯 Score: {score_percentage:.0f}%\n"
             
             # Add salary if available
             if enriched_job.extracted_salary and enriched_job.extracted_salary.min_salary:
@@ -258,21 +222,11 @@ class TelegramMessageFormatter:
     
     def _create_job_keyboard(self, job_id: str, preferences: TelegramUserPreferences) -> InlineKeyboardMarkup:
         """Create interactive keyboard for individual job."""
-        buttons = []
-        
-        if preferences.enable_job_actions:
-            # First row: Primary actions
-            buttons.append([
-                InlineKeyboardButton("💾 Save", callback_data=f"save_{job_id}"),
-                InlineKeyboardButton("🔗 Apply", callback_data=f"apply_{job_id}"),
-                InlineKeyboardButton("❌ Dismiss", callback_data=f"dismiss_{job_id}")
-            ])
-            
-            # Second row: Additional actions
-            buttons.append([
-                InlineKeyboardButton("📊 Detailed Score", callback_data=f"score_{job_id}"),
-                InlineKeyboardButton("🔍 Similar Jobs", callback_data=f"similar_{job_id}")
-            ])
+        # Simple two-button layout: Apply and Dismiss
+        buttons = [[
+            InlineKeyboardButton("🔗 Apply", callback_data=f"apply_{job_id}"),
+            InlineKeyboardButton("❌ Dismiss", callback_data=f"dismiss_{job_id}")
+        ]]
         
         return InlineKeyboardMarkup(buttons)
     
@@ -501,9 +455,7 @@ class PMJobTelegramBot:
         self.app.add_handler(CommandHandler("stop", self._handle_stop))
         
         # Callback handlers for inline buttons
-        self.app.add_handler(CallbackQueryHandler(self._handle_job_action, pattern=r"^(save|apply|dismiss)_"))
-        self.app.add_handler(CallbackQueryHandler(self._handle_score_request, pattern=r"^score_"))
-        self.app.add_handler(CallbackQueryHandler(self._handle_similar_jobs, pattern=r"^similar_"))
+        self.app.add_handler(CallbackQueryHandler(self._handle_job_action, pattern=r"^(apply|dismiss)_"))
         self.app.add_handler(CallbackQueryHandler(self._handle_settings_callback, pattern=r"^settings"))
         self.app.add_handler(CallbackQueryHandler(self._handle_stats_callback, pattern=r"^stats"))
         
@@ -612,7 +564,7 @@ Need more help? The bot learns from your interactions to improve recommendations
             if not recent_jobs:
                 await update.message.reply_text(
                     "No recent jobs found\\. The system may be gathering new opportunities\\.",
-                    parse_mode=ParseMode.MARKDOWN_V2
+                    parse_mode=None  # Temporarily disable markdown for reliable delivery
                 )
                 return
             
@@ -622,7 +574,7 @@ Need more help? The bot learns from your interactions to improve recommendations
             if not scored_jobs:
                 await update.message.reply_text(
                     f"No jobs found matching your criteria \\(minimum score: {preferences.min_score_threshold}%\\)\\. Try adjusting your filters in /settings\\.",
-                    parse_mode=ParseMode.MARKDOWN_V2
+                    parse_mode=None  # Temporarily disable markdown for reliable delivery
                 )
                 return
             
@@ -644,35 +596,40 @@ Need more help? The bot learns from your interactions to improve recommendations
         
         self.user_db.update_last_active(user_id)
         
-        if action == "save":
-            self.user_db.save_job_for_user(user_id, job_id)
-            self.user_db.record_user_action(user_id, job_id, "saved")
-            await query.answer("Job saved! 💾")
-            
-        elif action == "apply":
+        if action == "apply":
             # Get job URL and provide apply link
-            self.user_db.record_user_action(user_id, job_id, "applied")
-            await query.answer("Opening application link... 🔗")
+            try:
+                job = self.job_storage.get_job_by_id(job_id)
+                if job and job.apply_url:
+                    self.user_db.record_user_action(user_id, job_id, "applied")
+                    
+                    # Send the application URL to the user
+                    await context.bot.send_message(
+                        chat_id=user_id,
+                        text=f"🔗 **Apply for this position:**\n\n{job.apply_url}",
+                        parse_mode=None
+                    )
+                    await query.answer("Application link sent! 🚀")
+                else:
+                    await query.answer("Sorry, application link not available ❌")
+            except Exception as e:
+                self.logger.error(f"Failed to get job {job_id}: {e}")
+                await query.answer("Error retrieving application link ❌")
             
         elif action == "dismiss":
-            self.user_db.record_user_action(user_id, job_id, "dismissed")
-            await query.answer("Job dismissed ❌")
+            try:
+                # Record the user action
+                self.user_db.record_user_action(user_id, job_id, "dismissed")
+                
+                # Delete the job message entirely
+                await query.message.delete()
+                
+                # Send brief confirmation (will auto-disappear)
+                await query.answer("Job dismissed ❌")
+            except Exception as e:
+                self.logger.error(f"Failed to delete message: {e}")
+                await query.answer("Job dismissed ❌")
     
-    async def _handle_score_request(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
-        """Handle detailed score request."""
-        query = update.callback_query
-        job_id = query.data.replace('score_', '')
-        
-        # TODO: Get job details and show detailed scoring
-        await query.answer("Detailed scoring coming soon! 📊")
-    
-    async def _handle_similar_jobs(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
-        """Handle similar jobs request."""
-        query = update.callback_query
-        job_id = query.data.replace('similar_', '')
-        
-        # TODO: Find similar jobs based on title, company, skills
-        await query.answer("Similar jobs feature coming soon! 🔍")
     
     async def _handle_settings_callback(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Handle settings callback."""
@@ -828,7 +785,7 @@ Need more help? The bot learns from your interactions to improve recommendations
         
         if preferences.max_jobs_per_message == 1:
             # Send individual job messages
-            for job in jobs[:5]:  # Limit to 5 to avoid spam
+            for job in jobs:  # Send all jobs up to user's daily limit
                 try:
                     message, keyboard = self.message_formatter.format_job_message(
                         job, preferences, show_detailed_scoring=preferences.include_detailed_scoring
@@ -838,7 +795,7 @@ Need more help? The bot learns from your interactions to improve recommendations
                         chat_id=user_id,
                         text=message,
                         reply_markup=keyboard,
-                        parse_mode=ParseMode.MARKDOWN_V2
+                        parse_mode='HTML'  # Use HTML formatting for bold text
                     )
                     
                     # Record delivery
@@ -860,7 +817,7 @@ Need more help? The bot learns from your interactions to improve recommendations
                     chat_id=user_id,
                     text=message,
                     reply_markup=keyboard,
-                    parse_mode=ParseMode.MARKDOWN_V2
+                    parse_mode=None  # Temporarily disable markdown for reliable delivery
                 )
                 
                 # Record deliveries for all jobs in batch

@@ -166,8 +166,9 @@ class DeliveryOrchestrator:
             
             # Extract RSS feeds from job_sources configuration
             rss_feeds = {}
-            if hasattr(self.job_sources, 'rss_feeds') or 'rss_feeds' in self.job_sources:
-                rss_data = getattr(self.job_sources, 'rss_feeds', None) or self.job_sources.get('rss_feeds', {})
+            job_sources_dict = self.job_sources.__dict__ if hasattr(self.job_sources, '__dict__') else {}
+            if hasattr(self.job_sources, 'rss_feeds') or 'rss_feeds' in job_sources_dict:
+                rss_data = getattr(self.job_sources, 'rss_feeds', None)
                 
                 if isinstance(rss_data, dict):
                     if rss_data.get('enabled', False):
@@ -182,9 +183,24 @@ class DeliveryOrchestrator:
             
             self.logger.info(f"Configured {len(rss_feeds)} RSS feeds: {list(rss_feeds.keys())}")
             
+            # Extract LinkedIn enabled status from job_sources configuration
+            linkedin_enabled = False  # Default to disabled for optimization
+            
+            # Check for LinkedIn configuration
+            job_sources_dict = self.job_sources.__dict__ if hasattr(self.job_sources, '__dict__') else {}
+            if hasattr(self.job_sources, 'linkedin') or 'linkedin' in job_sources_dict:
+                linkedin_data = getattr(self.job_sources, 'linkedin', None)
+                
+                if isinstance(linkedin_data, dict):
+                    linkedin_enabled = linkedin_data.get('enabled', False)
+                elif hasattr(linkedin_data, 'enabled'):
+                    linkedin_enabled = linkedin_data.enabled
+            
+            self.logger.info(f"LinkedIn scraping enabled: {linkedin_enabled}")
+            
             discovery_config = create_default_discovery_config(
                 pm_profile=self.pm_profile,
-                enable_linkedin=True,
+                enable_linkedin=linkedin_enabled,
                 rss_feeds=rss_feeds
             )
             

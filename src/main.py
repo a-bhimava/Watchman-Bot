@@ -77,11 +77,30 @@ class PMWatchman:
                 self.logger.info("Please run 'python main.py init' to create default configuration")
                 return False
             
+            # Extract LinkedIn enabled status from job_sources configuration
+            linkedin_enabled = False  # Default to disabled for optimization
+            
+            # Check for LinkedIn configuration
+            job_sources_dict = job_sources.__dict__ if hasattr(job_sources, '__dict__') else job_sources
+            if 'linkedin' in job_sources_dict:
+                linkedin_data = job_sources_dict.get('linkedin', {})
+                linkedin_enabled = linkedin_data.get('enabled', False)
+            
+            # Extract RSS feeds configuration
+            rss_feeds = {}
+            if 'rss_feeds' in job_sources_dict:
+                rss_data = job_sources_dict.get('rss_feeds', {})
+                if isinstance(rss_data, dict) and rss_data.get('enabled', False):
+                    feeds = rss_data.get('feeds', {})
+                    for feed_name, feed_config in feeds.items():
+                        if isinstance(feed_config, dict) and feed_config.get('enabled', False):
+                            rss_feeds[feed_name] = feed_config.get('url', '')
+
             # Create discovery configuration
             discovery_config = create_default_discovery_config(
                 pm_profile=pm_profile,
-                enable_linkedin=True,
-                rss_feeds=getattr(job_sources, 'rss_feeds', {})
+                enable_linkedin=linkedin_enabled,
+                rss_feeds=rss_feeds
             )
             
             # Initialize orchestrator

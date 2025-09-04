@@ -39,6 +39,7 @@ class JobData:
     source: str = ""
     posted_date: Optional[datetime] = None
     expires_date: Optional[datetime] = None
+    scraped_at: Optional[datetime] = None
     raw_data: Dict[str, Any] = field(default_factory=dict)
     
     def __post_init__(self):
@@ -363,6 +364,7 @@ class RSSFeedProcessor:
                 apply_url=apply_url,
                 source=source,
                 posted_date=posted_date,
+                scraped_at=datetime.now(),
                 raw_data={
                     'entry_id': getattr(entry, 'id', ''),
                     'tags': getattr(entry, 'tags', []),
@@ -421,6 +423,7 @@ class RSSFeedProcessor:
         
         # Common patterns for company extraction from title
         company_patterns = [
+            r'^([A-Z][A-Za-z\s&,.]+?)\s+hiring\s+',  # "Appian hiring Product Manager"
             r'at\s+([A-Z][A-Za-z\s&,.]+?)(?:\s*[-|]|\s*$)',
             r'@\s*([A-Z][A-Za-z\s&,.]+?)(?:\s*[-|]|\s*$)',
             r'[\(]([A-Z][A-Za-z\s&,.]+?)[\)]',

@@ -68,10 +68,23 @@ class BonusScorer:
         
         # Recent posting bonus
         if job.posted_date:
-            hours_since_posted = (datetime.now() - job.posted_date.replace(tzinfo=None)).total_seconds() / 3600
-            if hours_since_posted < 24:
-                total_bonus += 2.0
-                bonus_reasons.append("Recently posted (+2)")
+            try:
+                # Handle both datetime objects and string dates
+                if isinstance(job.posted_date, str):
+                    posted_dt = datetime.fromisoformat(job.posted_date.replace('Z', '+00:00'))
+                else:
+                    posted_dt = job.posted_date
+                
+                # Remove timezone info for comparison
+                posted_dt = posted_dt.replace(tzinfo=None)
+                hours_since_posted = (datetime.now() - posted_dt).total_seconds() / 3600
+                
+                if hours_since_posted < 24:
+                    total_bonus += 2.0
+                    bonus_reasons.append("Recently posted (+2)")
+            except (ValueError, TypeError, AttributeError):
+                # Skip bonus if date parsing fails
+                pass
         
         # High-priority source bonus
         if job.source in ['linkedin', 'company_direct']:

@@ -622,25 +622,27 @@ class JobEnricher:
         """
         enriched_jobs = []
         
-        with log_context("job_enricher", operation="batch_job_enrichment", job_count=len(jobs)):
-            for i, job in enumerate(jobs):
-                try:
-                    enriched = self.enrich_job(job)
-                    enriched_jobs.append(enriched)
-                    
-                    if i % 10 == 0:
-                        self.logger.debug(f"Enriched {i+1}/{len(jobs)} jobs")
+        # Log enrichment start
+        self.logger.info(f"Starting batch enrichment for {len(jobs)} jobs")
+        
+        for i, job in enumerate(jobs):
+            try:
+                enriched = self.enrich_job(job)
+                enriched_jobs.append(enriched)
                 
-                except Exception as e:
-                    self.logger.error(f"Failed to enrich job {job.id}: {e}")
-                    # Add minimal enriched data
-                    enriched_jobs.append(EnrichedJobData(original_job=job))
+                if i % 10 == 0:
+                    self.logger.debug(f"Enriched {i+1}/{len(jobs)} jobs")
             
-            avg_quality = sum(e.quality_score for e in enriched_jobs) / len(enriched_jobs) if enriched_jobs else 0
-            
-            self.logger.info(f"Batch enrichment completed", extra={
-                'enriched_count': len(enriched_jobs),
-                'avg_quality_score': avg_quality
-            })
+            except Exception as e:
+                self.logger.error(f"Failed to enrich job {job.id}: {e}")
+                # Add minimal enriched data
+                enriched_jobs.append(EnrichedJobData(original_job=job))
+        
+        avg_quality = sum(e.quality_score for e in enriched_jobs) / len(enriched_jobs) if enriched_jobs else 0
+        
+        self.logger.info(f"Batch enrichment completed", extra={
+            'enriched_count': len(enriched_jobs),
+            'avg_quality_score': avg_quality
+        })
         
         return enriched_jobs

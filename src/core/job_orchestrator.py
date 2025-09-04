@@ -102,17 +102,15 @@ class SourceWorker:
         try:
             processor = RSSFeedProcessor()
             
+            # Convert rss_feeds format to what RSS processor expects
+            feed_configs = {}
             for feed_name, feed_url in rss_feeds.items():
-                try:
-                    # Use the actual method from RSS processor
-                    feed_config = {feed_name: {"url": feed_url, "enabled": True}}
-                    jobs = processor.process_feeds(feed_config)[:max_jobs]
-                    all_jobs.extend(jobs)
-                    self.logger.info(f"RSS feed {feed_name} provided {len(jobs)} jobs")
-                    
-                except Exception as e:
-                    self.logger.error(f"Failed to process RSS feed {feed_name}: {e}")
-                    continue
+                feed_configs[feed_name] = {"url": feed_url, "enabled": True}
+            
+            # Process all feeds in one call
+            jobs = processor.process_feeds(feed_configs)[:max_jobs]
+            all_jobs.extend(jobs)
+            self.logger.info(f"RSS processing provided {len(jobs)} jobs")
             
             duration = time.time() - start_time
             self.logger.info(f"RSS processing completed: {len(all_jobs)} jobs in {duration:.2f}s")

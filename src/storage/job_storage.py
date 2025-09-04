@@ -129,7 +129,7 @@ class JobIndex:
             True if job was added, False if duplicate detected
         """
         content_hash = self._compute_content_hash(job)
-        url_hash = self._compute_url_hash(job.url) if job.url else None
+        url_hash = self._compute_url_hash(job.apply_url) if job.apply_url else None
         
         with self._get_connection() as conn:
             # Check for duplicates first
@@ -338,56 +338,58 @@ class JobStorage:
             if not jobs:
                 return results
             
-            with log_context("job_storage", operation="store_jobs", job_count=len(jobs)):
-                storage_file = self._get_current_storage_file()
-                results['file_path'] = storage_file
-                
-                # Write jobs to file
-                try:
-                    with open(storage_file, 'a', encoding='utf-8') as f:
-                        # Use file locking to prevent concurrent writes
-                        fcntl.flock(f.fileno(), fcntl.LOCK_EX)
+            # Log storage start
+            self.logger.info(f"Starting storage for {len(jobs)} jobs")
+            
+            storage_file = self._get_current_storage_file()
+            results['file_path'] = storage_file
+            
+            # Write jobs to file
+            try:
+                with open(storage_file, 'a', encoding='utf-8') as f:
+                    # Use file locking to prevent concurrent writes
+                    fcntl.flock(f.fileno(), fcntl.LOCK_EX)
+                    
+                    for job in jobs:
+                        try:
+                            # Check for duplicate
+                            if self.index.add_job(job, storage_file):
+                                # Not a duplicate, store job
+                                job_data = asdict(job)
+                                
+                                # Convert datetime objects to strings
+                                for key, value in job_data.items():
+                                    if isinstance(value, datetime):
+                                        job_data[key] = value.isoformat()
+                                
+                                f.write(json.dumps(job_data) + '\n')
+                                f.flush()  # Ensure data is written
+                                
+                                results['stored_count'] += 1
+                                self.current_file_job_count += 1
+                            else:
+                                results['duplicate_count'] += 1
+                                self.logger.debug(f"Duplicate job detected: {job.id}")
                         
-                        for job in jobs:
-                            try:
-                                # Check for duplicate
-                                if self.index.add_job(job, storage_file):
-                                    # Not a duplicate, store job
-                                    job_data = asdict(job)
-                                    
-                                    # Convert datetime objects to strings
-                                    for key, value in job_data.items():
-                                        if isinstance(value, datetime):
-                                            job_data[key] = value.isoformat()
-                                    
-                                    f.write(json.dumps(job_data) + '\n')
-                                    f.flush()  # Ensure data is written
-                                    
-                                    results['stored_count'] += 1
-                                    self.current_file_job_count += 1
-                                else:
-                                    results['duplicate_count'] += 1
-                                    self.logger.debug(f"Duplicate job detected: {job.id}")
-                            
-                            except Exception as e:
-                                results['error_count'] += 1
-                                error_msg = f"Failed to store job {job.id}: {e}"
-                                results['errors'].append(error_msg)
-                                self.logger.error(error_msg)
-                
-                except Exception as e:
-                    error_msg = f"Failed to open storage file: {e}"
-                    results['errors'].append(error_msg)
-                    self.logger.error(error_msg)
-                    raise DataProcessingError(error_msg)
-                
-                self.logger.info(f"Storage completed", extra={
-                    'stored': results['stored_count'],
-                    'duplicates': results['duplicate_count'],
-                    'errors': results['error_count']
-                })
-                
-                return results
+                        except Exception as e:
+                            results['error_count'] += 1
+                            error_msg = f"Failed to store job {job.id}: {e}"
+                            results['errors'].append(error_msg)
+                            self.logger.error(error_msg)
+            
+            except Exception as e:
+                error_msg = f"Failed to open storage file: {e}"
+                results['errors'].append(error_msg)
+                self.logger.error(error_msg)
+                raise DataProcessingError(error_msg)
+            
+            self.logger.info(f"Storage completed", extra={
+                'stored': results['stored_count'],
+                'duplicates': results['duplicate_count'],
+                'errors': results['error_count']
+            })
+            
+            return results
     
     @performance_tracker("job_storage", "load_jobs")
     def load_jobs(self, 
@@ -433,6 +435,13 @@ class JobStorage:
                             if 'scraped_at' in job_data and job_data['scraped_at']:
                                 job_data['scraped_at'] = datetime.fromisoformat(job_data['scraped_at'])
                             
+                            if 'posted_date' in job_data and job_data['posted_date']:
+                                try:
+                                    job_data['posted_date'] = datetime.fromisoformat(job_data['posted_date'])
+                                except (ValueError, TypeError):
+                                    # Handle legacy or malformed date formats
+                                    job_data['posted_date'] = None
+                            
                             job = JobData(**job_data)
                             
                             # Apply filters
@@ -455,6 +464,51 @@ class JobStorage:
         
         self.logger.info(f"Loaded {len(jobs)} jobs from storage")
         return jobs
+    
+    def get_job_by_id(self, job_id: str) -> Optional[JobData]:
+        """
+        Get a specific job by ID from storage.
+        
+        Args:
+            job_id: The job ID to search for
+            
+        Returns:
+            JobData object if found, None otherwise
+        """
+        # Get all storage files
+        storage_files = []
+        for file_path in Path(self.config.storage_directory).glob("jobs_*.jsonl"):
+            storage_files.append(str(file_path))
+        
+        # Sort by creation time (newest first) to find recent jobs faster
+        storage_files.sort(key=lambda x: os.path.getctime(x), reverse=True)
+        
+        for file_path in storage_files:
+            try:
+                with open(file_path, 'r', encoding='utf-8') as f:
+                    for line in f:
+                        line = line.strip()
+                        if not line:
+                            continue
+                        
+                        job_data = json.loads(line)
+                        
+                        # Check if this is the job we're looking for
+                        if job_data.get('id') == job_id:
+                            # Convert posted_date if it's a string
+                            if 'posted_date' in job_data and job_data['posted_date']:
+                                try:
+                                    job_data['posted_date'] = datetime.fromisoformat(job_data['posted_date'])
+                                except (ValueError, TypeError):
+                                    job_data['posted_date'] = None
+                            
+                            return JobData(**job_data)
+                            
+            except (json.JSONDecodeError, FileNotFoundError, IOError) as e:
+                self.logger.warning(f"Failed to read job file {file_path}: {e}")
+                continue
+        
+        return None
     
     def get_storage_stats(self) -> StorageStats:
         """Get comprehensive storage statistics."""
