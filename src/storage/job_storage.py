@@ -338,7 +338,7 @@ class JobStorage:
             if not jobs:
                 return results
             
-            with log_context(operation="store_jobs", job_count=len(jobs)):
+            with log_context("job_storage", operation="store_jobs", job_count=len(jobs)):
                 storage_file = self._get_current_storage_file()
                 results['file_path'] = storage_file
                 

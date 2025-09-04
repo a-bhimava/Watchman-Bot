@@ -622,7 +622,7 @@ class JobEnricher:
         """
         enriched_jobs = []
         
-        with log_context(operation="batch_job_enrichment", job_count=len(jobs)):
+        with log_context("job_enricher", operation="batch_job_enrichment", job_count=len(jobs)):
             for i, job in enumerate(jobs):
                 try:
                     enriched = self.enrich_job(job)
