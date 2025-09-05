@@ -108,20 +108,35 @@ class JobDeliveryScheduler:
         self._setup_default_schedules()
     
     def _setup_default_schedules(self):
-        """Setup default delivery schedules."""
-        # Daily morning delivery (9:00 AM UTC)
-        self.scheduler.every().day.at("09:00").do(
-            self._run_daily_delivery_batch, 
-            delivery_window=DeliveryWindow(hour=9, minute=0)
-        )
+        """Setup default delivery schedules based on system settings."""
+        # Get system settings
+        settings = self.telegram_bot.system_settings
         
-        # Evening delivery for twice-daily users (18:00 UTC)
-        self.scheduler.every().day.at("18:00").do(
-            self._run_evening_delivery_batch,
-            delivery_window=DeliveryWindow(hour=18, minute=0)
-        )
+        # Calculate schedule times based on system settings
+        # Starting at preferred_start_hour, then every hours_between_batches
+        start_hour = settings.preferred_start_hour
+        hours_between = settings.hours_between_batches
         
-        # Cleanup old delivery records weekly
+        # Schedule 4 daily batches: 9 AM, 3 PM, 9 PM, 3 AM (all in system timezone)
+        delivery_times = []
+        for i in range(settings.batches_per_day):
+            hour = (start_hour + i * hours_between) % 24
+            delivery_times.append(f"{hour:02d}:00")
+        
+        self.logger.info(f"Setting up delivery schedule: {delivery_times} (timezone: {settings.timezone})")
+        
+        # Schedule each delivery time
+        for i, time_str in enumerate(delivery_times):
+            batch_name = f"batch_{i+1}"
+            hour = int(time_str.split(':')[0])
+            
+            self.scheduler.every().day.at(time_str).do(
+                self._run_delivery_batch,
+                batch_name=batch_name,
+                delivery_window=DeliveryWindow(hour=hour, minute=0)
+            )
+        
+        # Cleanup old delivery records weekly  
         self.scheduler.every().sunday.at("02:00").do(self._cleanup_old_records)
     
     def start_scheduler(self):
@@ -179,49 +194,45 @@ class JobDeliveryScheduler:
         
         self.logger.info("Delivery scheduler loop stopped")
     
-    def _run_daily_delivery_batch(self, delivery_window: DeliveryWindow):
-        """Run daily delivery batch for morning users."""
-        asyncio.run(self._execute_delivery_batch("daily_morning", delivery_window))
-    
-    def _run_evening_delivery_batch(self, delivery_window: DeliveryWindow):
-        """Run evening delivery batch for twice-daily users.""" 
-        asyncio.run(self._execute_delivery_batch("daily_evening", delivery_window))
+    def _run_delivery_batch(self, batch_name: str, delivery_window: DeliveryWindow):
+        """Run delivery batch for scheduled time."""
+        asyncio.run(self._execute_delivery_batch(batch_name, delivery_window))
     
     @performance_tracker("delivery_scheduler", "execute_delivery_batch")
     async def _execute_delivery_batch(self, batch_type: str, delivery_window: DeliveryWindow):
         """Execute a delivery batch for users."""
         batch_start_time = datetime.now()
         
-        with log_context(operation="delivery_batch", batch_type=batch_type):
-            self.logger.info(f"Starting {batch_type} delivery batch")
+        context = log_context(component="delivery_scheduler", operation="delivery_batch", batch_type=batch_type)
+        self.logger.info(f"Starting {batch_type} delivery batch")
+        
+        try:
+            # Get active users for this delivery window
+            target_users = await self._get_users_for_delivery_window(delivery_window, batch_type)
             
-            try:
-                # Get active users for this delivery window
-                target_users = await self._get_users_for_delivery_window(delivery_window, batch_type)
-                
-                if not target_users:
-                    self.logger.info(f"No users scheduled for {batch_type} delivery")
-                    return
-                
-                # Get recent high-quality jobs
-                jobs = await self._get_jobs_for_delivery()
-                
-                if not jobs:
-                    self.logger.warning("No jobs available for delivery")
-                    return
-                
-                # Deliver jobs to users
-                delivery_results = await self._deliver_to_users(target_users, jobs)
-                
-                # Update statistics
-                self._update_delivery_stats(delivery_results, batch_start_time)
-                
-                self.logger.info(f"Completed {batch_type} delivery batch: "
-                               f"{len(delivery_results)} users, "
-                               f"{sum(r.jobs_delivered for r in delivery_results)} jobs delivered")
-                
-            except Exception as e:
-                self.logger.error(f"Delivery batch {batch_type} failed: {e}", exc_info=True)
+            if not target_users:
+                self.logger.info(f"No users scheduled for {batch_type} delivery")
+                return
+            
+            # Get recent high-quality jobs
+            jobs = await self._get_jobs_for_delivery()
+            
+            if not jobs:
+                self.logger.warning("No jobs available for delivery")
+                return
+            
+            # Deliver jobs to users
+            delivery_results = await self._deliver_to_users(target_users, jobs)
+            
+            # Update statistics
+            self._update_delivery_stats(delivery_results, batch_start_time)
+            
+            self.logger.info(f"Completed {batch_type} delivery batch: "
+                           f"{len(delivery_results)} users, "
+                           f"{sum(r.jobs_delivered for r in delivery_results)} jobs delivered")
+            
+        except Exception as e:
+            self.logger.error(f"Delivery batch {batch_type} failed: {e}", exc_info=True)
     
     async def _get_users_for_delivery_window(self, 
                                            delivery_window: DeliveryWindow, 

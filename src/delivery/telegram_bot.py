@@ -480,7 +480,13 @@ class PMJobTelegramBot:
         username = update.effective_user.username
         
         # Create default preferences for new user
-        preferences = TelegramUserPreferences(user_id=user_id, username=username)
+        # Calculate total daily jobs from system settings: jobs_per_batch * batches_per_day
+        total_daily_jobs = self.system_settings.jobs_per_batch * self.system_settings.batches_per_day
+        preferences = TelegramUserPreferences(
+            user_id=user_id, 
+            username=username,
+            max_daily_jobs=total_daily_jobs
+        )
         self.user_db.save_user_preferences(preferences)
         
         welcome_message = """
@@ -661,29 +667,29 @@ Need more help? The bot learns from your interactions to improve recommendations
             return
         
         settings_message = f"""
-⚙️ **Your Current Settings**
+⚙️ <b>Your Current Settings</b>
 
-**Delivery Preferences:**
+<b>Delivery Preferences:</b>
 • Status: {'✅ Enabled' if preferences.enabled else '❌ Disabled'}
 • Frequency: {preferences.frequency}
 • Delivery Time: {preferences.delivery_time}
 • Max Jobs Per Day: {preferences.max_daily_jobs}
 
-**Filtering:**
+<b>Filtering:</b>
 • Minimum Score: {preferences.min_score_threshold}%
 • Include Description: {'Yes' if preferences.include_description_preview else 'No'}
 • Detailed Scoring: {'Yes' if preferences.include_detailed_scoring else 'No'}
 
-**Interaction:**
+<b>Interaction:</b>
 • Job Actions: {'Enabled' if preferences.enable_job_actions else 'Disabled'}
 • Search: {'Enabled' if preferences.enable_search else 'Disabled'}
 
-*Settings configuration UI coming soon\\! For now, contact support to modify settings\\.*
+<i>Settings configuration UI coming soon! For now, contact support to modify settings.</i>
         """
         
         await update.message.reply_text(
             settings_message,
-            parse_mode=ParseMode.MARKDOWN_V2
+            parse_mode=ParseMode.HTML
         )
     
     async def _handle_saved_jobs(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -693,8 +699,8 @@ Need more help? The bot learns from your interactions to improve recommendations
         
         if not saved_job_ids:
             await update.message.reply_text(
-                "You haven't saved any jobs yet\\. Use the 💾 Save button on jobs you're interested in\\!",
-                parse_mode=ParseMode.MARKDOWN_V2
+                "You haven't saved any jobs yet. Use the 💾 Save button on jobs you're interested in!",
+                parse_mode=ParseMode.HTML
             )
             return
         

@@ -19,23 +19,23 @@
 📱 **I built an automated PM job search system - want your own copy?**
 
 **What it does:**
-- Finds 150+ PM jobs every 6 hours from LinkedIn RSS feeds
-- Delivers top 20 most relevant jobs to your Telegram
-- 100% personalized for your profile, companies, and domain
-- Runs 24/7 on your computer, completely automated
+- Finds 50-150+ PM jobs every 6 hours from multiple LinkedIn RSS feeds
+- Delivers top 20 most relevant jobs to your Telegram with simple Apply/Dismiss interface
+- Accurate company extraction (shows actual companies, not "LinkedIn")
+- Runs 24/7 on your computer with clean HTML formatting and reliable delivery
 
 **15-minute setup:**
 1. **Get your copy**: https://github.com/[YOUR-USERNAME]/pm-watchman → Click "Use this template"
-2. **Run setup**: `python3 scripts/quick_setup.py` 
-3. **Choose domain**: Fintech, Healthcare, Consulting, Startup, Enterprise, or New Grad
-4. **LinkedIn RSS**: Create your personalized job search RSS feed
-5. **Telegram bot**: Get jobs delivered directly to your phone
+2. **Create Telegram bot**: Text @BotFather, send `/newbot`, get your token
+3. **Install & run**: `pip install -r requirements.txt && python3 run_watchman.py telegram --interval 6`
+4. **Pre-configured**: Comes with 2 working LinkedIn RSS feeds, no setup needed
+5. **Add more feeds**: Follow instructions in `config/job_sources.json` to add additional RSS feeds
 
 **Results I'm seeing:**
-- ✅ 24-150 jobs found every 6 hours  
-- ✅ 90%+ match rate for target companies
-- ✅ Zero duplicates, fully automated
-- ✅ Found [X jobs] this week at [target companies]
+- ✅ 50-150+ jobs found every 6 hours from dual RSS feeds
+- ✅ Clean job delivery with actual company names (Appian, Stord, etc.)
+- ✅ Simple 2-button interface: Apply (opens link) or Dismiss (deletes message)
+- ✅ Fixed all delivery issues - now getting 20 jobs per batch reliably
 
 **Need help with setup?** Happy to walk you through it - takes 15 minutes!
 
@@ -50,11 +50,11 @@
    - "Send `/newbot` and follow prompts" 
    - "Copy the token (looks like `1234567890:ABC...`)"
 
-2. **LinkedIn RSS Setup**
-   - "Go to RSS.app and create free account"
-   - "Add LinkedIn job search with your keywords"
-   - "Copy the RSS feed URL" 
-   - "System checks it every hour automatically"
+2. **LinkedIn RSS Setup** (Optional - System comes pre-configured)
+   - "System includes 2 working LinkedIn RSS feeds already"
+   - "To add more: Go to RSS.app, create LinkedIn job search, copy RSS URL"
+   - "Edit `config/job_sources.json` and add new feed configuration" 
+   - "System checks all feeds every hour automatically"
 
 3. **Domain Selection**
    - **Fintech**: Stripe, payments, banking, financial services
@@ -75,11 +75,11 @@
 ## 📊 Success Metrics to Track
 
 **For each person you help:**
-- [ ] Setup completed in <30 minutes
-- [ ] 20+ jobs delivered in first 24 hours
-- [ ] 90%+ relevance rate for their domain  
-- [ ] System running for 30+ days
-- [ ] 5+ job applications from delivered jobs
+- [ ] Setup completed in <15 minutes (pre-configured feeds)
+- [ ] 20 jobs delivered every 6 hours consistently
+- [ ] Apply buttons working (opening job links correctly)
+- [ ] Company names showing correctly (not "LinkedIn")
+- [ ] System running continuously with error handling
 
 **Network effect goals:**
 - [ ] 5+ classmates/colleagues using successfully
@@ -110,11 +110,11 @@
 ## 🎉 Long-term Success
 
 **After 6 months with your network:**
-- 20+ people using the system successfully
-- Collective 500+ job applications weekly
-- Multiple job offers across the group
-- Strong PM professional network
-- Reputation as helpful problem-solver
+- 20+ people using the system with reliable job delivery
+- Collective 500+ job applications weekly (20 jobs × 4 batches × 20+ users)
+- Multiple job offers from accurately extracted company opportunities
+- Strong PM professional network with shared job market insights
+- Reputation for building and sharing reliable automation tools
 
 **Your benefits:**
 - Technical mentoring practice

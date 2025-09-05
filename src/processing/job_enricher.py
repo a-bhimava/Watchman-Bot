@@ -440,40 +440,40 @@ class JobEnricher:
         job_text = self._get_job_text(job)
         
         try:
-            with log_context(operation="job_enrichment", job_id=job.id):
-                # Extract salary information
-                if self.config.enable_salary_extraction and job_text:
-                    enriched.extracted_salary = self.salary_extractor.extract_salary(job_text)
-                
-                # Extract skills
-                if self.config.enable_skills_extraction and job_text:
-                    enriched.extracted_skills = self.skills_extractor.extract_skills(job_text)
-                
-                # Enrich company information
-                if self.config.enable_company_enrichment and job.company:
-                    enriched.company_info = self.company_enricher.enrich_company(
-                        job.company, job_text
-                    )
-                
-                # Normalize location
-                if self.config.enable_location_normalization and job.location:
-                    normalized_loc, remote_type = self.location_normalizer.normalize_location(job.location)
-                    enriched.normalized_location = normalized_loc
-                    enriched.remote_work_type = remote_type
-                
-                # Detect seniority level
-                if self.config.enable_seniority_detection:
-                    enriched.seniority_level = self._detect_seniority(job.title, job_text)
-                
-                # Detect job type and requirements
-                enriched.job_type = self._detect_job_type(job_text)
-                enriched.experience_required = self._extract_experience_requirement(job_text)
-                enriched.education_required = self._extract_education_requirement(job_text)
-                
-                # Calculate quality score
-                enriched.quality_score = self._calculate_quality_score(enriched)
-                
-                self.logger.debug(f"Enriched job {job.id} with quality score {enriched.quality_score}")
+            context = log_context(component="job_enricher", operation="job_enrichment", job_id=job.id)
+            # Extract salary information
+            if self.config.enable_salary_extraction and job_text:
+                enriched.extracted_salary = self.salary_extractor.extract_salary(job_text)
+            
+            # Extract skills
+            if self.config.enable_skills_extraction and job_text:
+                enriched.extracted_skills = self.skills_extractor.extract_skills(job_text)
+            
+            # Enrich company information
+            if self.config.enable_company_enrichment and job.company:
+                enriched.company_info = self.company_enricher.enrich_company(
+                    job.company, job_text
+                )
+            
+            # Normalize location
+            if self.config.enable_location_normalization and job.location:
+                normalized_loc, remote_type = self.location_normalizer.normalize_location(job.location)
+                enriched.normalized_location = normalized_loc
+                enriched.remote_work_type = remote_type
+            
+            # Detect seniority level
+            if self.config.enable_seniority_detection:
+                enriched.seniority_level = self._detect_seniority(job.title, job_text)
+            
+            # Detect job type and requirements
+            enriched.job_type = self._detect_job_type(job_text)
+            enriched.experience_required = self._extract_experience_requirement(job_text)
+            enriched.education_required = self._extract_education_requirement(job_text)
+            
+            # Calculate quality score
+            enriched.quality_score = self._calculate_quality_score(enriched)
+            
+            self.logger.debug(f"Enriched job {job.id} with quality score {enriched.quality_score}")
         
         except Exception as e:
             self.logger.error(f"Job enrichment failed for {job.id}: {e}")

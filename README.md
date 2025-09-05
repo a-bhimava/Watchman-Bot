@@ -1,16 +1,16 @@
 # 🎯 PM Watchman - Automated Job Discovery System
 
-**Get 150+ PM jobs delivered to your Telegram every 6 hours, automatically scored and filtered for your profile.**
+**Get 50-150+ PM jobs delivered to your Telegram every 6 hours, automatically scored and filtered for your profile.**
 
-A personalized job discovery system that finds Product Manager opportunities across LinkedIn, RSS feeds, and company career pages, then delivers only the most relevant matches to your Telegram bot.
+A personalized job discovery system that finds Product Manager opportunities from multiple LinkedIn RSS feeds and delivers the top 20 most relevant matches to your Telegram bot with a simple Apply/Dismiss interface.
 
 ## ✨ What You Get
 
-- 📱 **150+ jobs discovered every 6 hours** from your LinkedIn RSS feed
-- 🎯 **Top 20 highest-scoring jobs** delivered to Telegram  
-- 🏢 **Personalized for your target companies** (Stripe, Intuit, Mastercard, etc.)
-- 💼 **Domain-specific optimization** (fintech, healthtech, consulting, startup)
-- 🔄 **Fully automated** - runs 24/7 on your computer
+- 📱 **50-150+ jobs discovered every 6 hours** from multiple LinkedIn RSS feeds
+- 🎯 **Top 20 highest-scoring jobs** delivered to Telegram in clean HTML format
+- 🏢 **Accurate company extraction** from job titles (no more "LinkedIn" as company name)
+- 💼 **Simple 2-button interface** - Apply (opens job link) or Dismiss (deletes message)
+- 🔄 **Fully automated** - runs 24/7 on your computer with 6-hour intervals
 - 🔒 **100% private** - your data stays on your machine
 
 ## 🚀 Quick Start (15 minutes)
@@ -35,11 +35,11 @@ The setup script will ask you to choose your PM focus:
 - 🎓 **New Grad Programs** (APM, rotational programs)
 
 ### Step 4: LinkedIn RSS Setup
-The script will guide you through creating your personalized LinkedIn job search RSS feed:
-1. Go to RSS.app and create account
-2. Set up LinkedIn job search with your criteria
-3. Copy the RSS feed URL (like: `https://rss.app/feeds/ABC123.xml`)
-4. System automatically collects jobs every hour
+The system comes pre-configured with two working LinkedIn RSS feeds:
+1. Primary feed: Product Manager positions across target companies
+2. Secondary feed: Additional PM opportunities for broader coverage
+3. System automatically collects jobs every hour from both feeds
+4. **To add more feeds**: Follow instructions in `config/job_sources.json`
 
 ## 🎛️ Deep Customization
 
@@ -65,12 +65,12 @@ Every user gets their own personalized configuration:
 
 ## 📊 Performance Optimized
 
-**Proven Results:**
-- ✅ **24-150 jobs found every 6 hours** (LinkedIn RSS refreshes hourly)
-- ✅ **Top 20 delivered** based on your scoring criteria
-- ✅ **90%+ relevance rate** for target companies and roles
+**Current Status (Recently Fixed):**
+- ✅ **50-150 jobs found every 6 hours** from dual LinkedIn RSS feeds
+- ✅ **Top 20 delivered** based on scoring criteria (minimum score: 50)
+- ✅ **Accurate company extraction** using pattern matching for "Company hiring Role" format
 - ✅ **Zero duplicates** with intelligent deduplication
-- ✅ **<2 second response time** with smart caching
+- ✅ **Simple Telegram interface** with Apply/Dismiss buttons and clean HTML formatting
 
 ## 🌐 Share with Your Network
 
@@ -104,11 +104,11 @@ Perfect for MBA classmates, PM communities, and professional networks:
 
 ## Features
 
-- **Multi-source Job Discovery**: LinkedIn + RSS feeds
+- **Multi-source Job Discovery**: Multiple LinkedIn RSS feeds via rss.app
 - **Intelligent Scoring**: 0-100 relevance score based on your PM profile
-- **Batch Delivery**: 4 batches of 10 jobs daily via Telegram
+- **Batch Delivery**: 4 batches of 20 jobs daily via Telegram (every 6 hours)
 - **Duplicate Prevention**: 30-day tracking to avoid repeats
-- **Local Execution**: Runs on your machine with cron automation
+- **Local Execution**: Runs on your machine with automated scheduling
 
 ## 📚 Documentation
 
@@ -124,12 +124,12 @@ Perfect for MBA classmates, PM communities, and professional networks:
 
 ## 🌟 Success Stories
 
-**Proven Results from Users:**
-- 📈 **150+ jobs discovered every 6 hours** from LinkedIn RSS feeds
-- 🎯 **90%+ relevance rate** for target companies and roles  
-- 💼 **Multiple job offers** within 30 days of setup
-- ⚡ **<2 minute** average time from job posting to Telegram notification
-- 🔄 **99.9% uptime** with automated error recovery
+**Recent Improvements (Latest Version):**
+- 📈 **50-150+ jobs discovered every 6 hours** from dual LinkedIn RSS feeds
+- 🏢 **Fixed company name extraction** - now shows actual companies (Appian, Stord, etc.) instead of "LinkedIn"
+- 💬 **Simplified Telegram interface** - clean HTML formatting with Apply/Dismiss buttons
+- ⚡ **Reliable job delivery** - fixed date parsing and message formatting issues
+- 🔧 **Easy RSS feed management** - instructions provided for adding more feeds
 
 ## 🤝 Community
 
@@ -156,10 +156,10 @@ Perfect for MBA classmates, PM communities, and professional networks:
 
 **System Performance:**
 - ⚡ **<2 second** job discovery and scoring
-- 📱 **<5 second** Telegram delivery  
-- 🔄 **Hourly collection** from LinkedIn RSS feeds
-- 🎯 **Top 20 jobs** delivered every 6 hours
+- 📱 **<5 second** Telegram delivery with HTML formatting
+- 🔄 **Hourly collection** from multiple LinkedIn RSS feeds
+- 🎯 **Top 20 jobs** delivered every 6 hours (score >= 50)
 - 💾 **<50MB** memory usage
-- 🔧 **99.9%** automated operation
+- 🔧 **Fully automated** operation with error handling
 
 ---
